@@ -1,0 +1,20 @@
+user dhani [
+nip	: 12345,
+password:dhaniflw
+];
+
+user wiranto = [
+nip	: 54321,
+password: wiranto
+];
+
+
+user meli = [
+nip	: 32145,
+password: meliana
+];
+
+user kevin = [
+nip	: 67890,
+password: kevin
+];
