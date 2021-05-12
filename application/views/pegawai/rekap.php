@@ -24,8 +24,6 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <a href="<?= base_url('pegawai/tambahClient'); ?>" class="btn btn-gradient-info mb-4 btn-icon-text"><i class="mdi mdi-account-plus btn-icon-prepend"></i> Tambah Data Client</a>
-                        <a href="<?= base_url('pegawai/exportClient'); ?>" class="btn btn-gradient-success mb-4 btn-icon-text"><i class="mdi mdi-file-excel btn-icon-prepend"></i>Export</a>
                         <h4 class="card-title">Daftar Client</h4>
                         <table class="table table-hover">
                             <thead>
@@ -47,9 +45,7 @@
                                     <td><?= $klient['nama_client']; ?></td>
                                     <td><?= $klient['no_telp']; ?></td>
                                     <td>
-                                    <a href="<?= base_url('pegawai/detail_client/') .$klient['id_client']; ?>" class="badge badge-gradient-info"><i class="mdi mdi-eye"></i> See Detail</a>
-                                    <a href="<?= base_url('pegawai/edit_client/') .$klient['id_client']; ?>" class="badge badge-gradient-success"><i class="mdi mdi-pencil-box-outline"></i> Edit Client</a>
-                                    <a href="<?= base_url('pegawai/deleteClient/') .$klient['id_client']; ?>" class="badge badge-gradient-danger"><i class="mdi mdi-delete"></i> Delete Client</a>
+                                    <a href="<?= base_url('pegawai/detailRekap/') .$klient['id_client']; ?>" class="badge badge-gradient-info"><i class="mdi mdi-eye"></i> See Detail</a>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

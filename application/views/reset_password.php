@@ -12,11 +12,15 @@
         body {
             overflow: hidden;
         }
-
-        .error {
-            color: #fe7096;
-            text-shadow: 2px 2px 4px #dd8da2;
+        
+        section {
+            background: linear-gradient(to right, #FFBF96, #FE7096);
         }
+
+        .signup a {
+            color: #fff0a5;
+        }
+
     </style>
 </head>
 
@@ -25,30 +29,24 @@
         <div class="box">
             <div class="container">
                 <div class="form">
-                    <h2>Login Form</h2>
+                    <h2><?= $title; ?> Form</h2>
                     <?= $this->session->flashdata('message'); ?>
-                    <form action="<?= base_url(); ?>" method="post">
+                    <form action="<?= base_url('login/reset_password'); ?>" method="post">
                         <div class="inputBox">
                             <input type="text" placeholder="NIP" name="nip" value="<?= set_value('nip'); ?>">
-                            <?= form_error('nip', '<small class="error">', '</small>'); ?>
                         </div>
                         <div class="inputBox">
-                            <input type="password" placeholder="Password" name="password">
-                            <?= form_error('password', '<small class="error">', '</small>'); ?>
+                            <input type="text" placeholder="Email" name="email">
                         </div>
                         <div class="inputBox">
-                            <input type="submit" value="Login">
+                            <input type="submit" value="Reset">
                         </div>
-                        <p class="forget">Forgot Password ? <a href="<?= base_url('login/reset_password'); ?>">Reset Password</a></p>
-                        <p class="signup">Don't have an account ? <a href="<?= base_url('login/signup'); ?>">Sign Up</a></p>
+                        <p class="signup">Back to <a href="<?= base_url('login'); ?>">Login</a></p>
                     </form>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
-    <!-- <script src="<?= base_url('assets/js/script.js'); ?>"></script> -->
 </body>
 
 </html>

@@ -30,9 +30,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('pegawai/tax_calculate'); ?>">
-                <span class="menu-title">Tax Calculation</span>
-                <i class="mdi mdi-calculator menu-icon"></i>
+              <a class="nav-link" href="<?= base_url('pegawai/rekap'); ?>">
+                <span class="menu-title">Rekap</span>
+                <i class="mdi mdi-archive menu-icon"></i>
               </a>
             </li>
             <li class="nav-item sidebar-actions">

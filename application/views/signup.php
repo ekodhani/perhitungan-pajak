@@ -9,8 +9,12 @@
     <link rel="shortcut icon" href="<?= base_url('assets/image/favicon.png'); ?>">
     <title><?= $title; ?></title>
     <style>
-        body {
-            overflow: hidden;
+        section {
+            background: linear-gradient(to right, #90CAF9, #047EDF);
+        }
+
+        .signup a {
+            color: #fed713;
         }
 
         .error {
@@ -25,22 +29,33 @@
         <div class="box">
             <div class="container">
                 <div class="form">
-                    <h2>Login Form</h2>
+                    <h2><?= $title; ?> Form</h2>
                     <?= $this->session->flashdata('message'); ?>
-                    <form action="<?= base_url(); ?>" method="post">
+                    <form action="<?= base_url('login/signup'); ?>" method="post">
                         <div class="inputBox">
-                            <input type="text" placeholder="NIP" name="nip" value="<?= set_value('nip'); ?>">
+                            <input type="text" placeholder="NIP" name="nip" value="<?= set_value('nip')?>">
                             <?= form_error('nip', '<small class="error">', '</small>'); ?>
+                        </div>
+                        <div class="inputBox">
+                            <input type="text" placeholder="Nama" name="nama" value="<?= set_value('nama')?>">
+                            <?= form_error('nama', '<small class="error">', '</small>'); ?>
+                        </div>
+                        <div class="inputBox">
+                            <input type="text" placeholder="Jabatan" name="jabatan" value="<?= set_value('jabatan')?>">
+                            <?= form_error('jabatan', '<small class="error">', '</small>'); ?>
                         </div>
                         <div class="inputBox">
                             <input type="password" placeholder="Password" name="password">
                             <?= form_error('password', '<small class="error">', '</small>'); ?>
                         </div>
                         <div class="inputBox">
-                            <input type="submit" value="Login">
+                            <input type="password" placeholder="Retype Password" name="password1">
+                            <?= form_error('password1', '<small class="error">', '</small>'); ?>
                         </div>
-                        <p class="forget">Forgot Password ? <a href="<?= base_url('login/reset_password'); ?>">Reset Password</a></p>
-                        <p class="signup">Don't have an account ? <a href="<?= base_url('login/signup'); ?>">Sign Up</a></p>
+                        <div class="inputBox">
+                            <input type="submit" value="<?= $title; ?>">
+                        </div>
+                        <p class="signup">Have an account ? <a href="<?= base_url('login'); ?>">Sign In</a></p>
                     </form>
                 </div>
             </div>

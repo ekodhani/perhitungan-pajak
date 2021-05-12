@@ -24,8 +24,8 @@
 
                         <form class="forms-sample" action="" method="post" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="nip">NIP</label>
-                                <input type="text" class="form-control" id="nip" name="nip" placeholder="Enter the client nip">
+                                <label for="npwp">NPWP</label>
+                                <input type="text" class="form-control" id="npwp" name="nip" placeholder="Enter the client npwp">
                                 <?= form_error('nip', '<small class="text-danger pl-3">', '</small>'); ?>
                             </div>
                             <div class="form-group">
