@@ -37,6 +37,7 @@ class Pegawai extends CI_Controller
             $this->load->view('pegawai/tax_calculate', $data);
             $this->load->view('tamplate/footer');
         } else {
+            $nip = $this->input->post('nip');
             $nama = $this->input->post('nama');
             $statusnpwp = $this->input->post('statusnpwp');
             $statuskawin = $this->input->post('sk');
@@ -123,6 +124,7 @@ class Pegawai extends CI_Controller
             $pphterutangsetahun = $pphatas;
             $data = [
                 'id_pegawai_client'         => $id,
+                'nip'                       => $nip,
                 'nama'                      => $nama,
                 'status_npwp'               => $statusnpwp,
                 'status_kawin'              => $statuskawin,
@@ -184,8 +186,6 @@ class Pegawai extends CI_Controller
         $data['detail_client'] = $this->M_PPH->select(['id_client' => $id], 'client')->row_array();
         // menampilkan data client berdasarkan id_pegawainya
         $data['rekap'] = $this->db->query("select * from rekap where id_client='$id'")->result();
-        // var_dump($data);
-        // die;
         $this->load->view('tamplate/header', $data);
         $this->load->view('tamplate/sidebar', $data);
         $this->load->view('pegawai/detail_rekap', $data);
@@ -566,7 +566,7 @@ class Pegawai extends CI_Controller
     }
 
     // function to export calculate tax to xlsx
-    public function exportTax()
+    public function exportTax($id)
     {
         //code use third party phpexcel-1.8 blom di border style
         require(APPPATH. 'third_party/PHPExcel-1.8/Classes/PHPExcel.php');
@@ -576,7 +576,7 @@ class Pegawai extends CI_Controller
 
         $spreadsheet->getProperties()->setCreator("CV. Buana Makmur Consulting");
         $spreadsheet->getProperties()->setLastModifiedBy("CV. Buana Makmur Consulting");
-        $spreadsheet->getProperties()->setTitle("Data Client");
+        $spreadsheet->getProperties()->setTitle("Data Pajak Client");
 
         $spreadsheet->setActiveSheetIndex(0);
 
@@ -608,7 +608,7 @@ class Pegawai extends CI_Controller
 
         // set cell value
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'NPWP');
+        $sheet->setCellValue('B1', 'NIP');
         $sheet->setCellValue('C1', 'Nama Pegawai Client');
         $sheet->setCellValue('D1', 'Status NPWP');
         $sheet->setCellValue('E1', 'Status Kawin');
@@ -647,15 +647,32 @@ class Pegawai extends CI_Controller
         $sheet->getStyle('A1:V1')->applyFromArray($styleArray);
 
         // BLANK BANGET ANJIRRR
-        $client = $this->M_PPH->select(['id_pegawai' =>$this->session->userdata('nip')], 'client')->result();
+        $rekap = $this->db->query("select * from rekap where id_client='$id'")->result();
         $no = 1;
         $baris = 2;
-        foreach($client as $row){
+        foreach($rekap as $row){
             $sheet->setCellValue('A'.$baris, $no++);
             $sheet->setCellValue('B'.$baris, $row->nip);
-            $sheet->setCellValue('C'.$baris, $row->nama_client);
-            $sheet->setCellValue('D'.$baris, $row->alamat);
-            $sheet->setCellValue('E'.$baris, $row->no_telp);
+            $sheet->setCellValue('C'.$baris, $row->nama);
+            $sheet->setCellValue('D'.$baris, $row->status_npwp);
+            $sheet->setCellValue('E'.$baris, $row->status_kawin);
+            $sheet->setCellValue('F'.$baris, $row->tanggungan);
+            $sheet->setCellValue('G'.$baris, $row->gaji);
+            $sheet->setCellValue('H'.$baris, $row->tunjangan_pph);
+            $sheet->setCellValue('I'.$baris, $row->tunjangan_lain);
+            $sheet->setCellValue('J'.$baris, $row->honor);
+            $sheet->setCellValue('K'.$baris, $row->premi);
+            $sheet->setCellValue('L'.$baris, $row->tantiem);
+            $sheet->setCellValue('M'.$baris, $row->bruto);
+            $sheet->setCellValue('N'.$baris, $row->biaya_jabatan);
+            $sheet->setCellValue('O'.$baris, $row->penghasilan_bruto_setahun);
+            $sheet->setCellValue('P'.$baris, $row->biaya_jabatan_setahun);
+            $sheet->setCellValue('Q'.$baris, $row->jumlah_pengurang_setahun);
+            $sheet->setCellValue('R'.$baris, $row->penghasilan_neto);
+            $sheet->setCellValue('S'.$baris, $row->ptkp);
+            $sheet->setCellValue('T'.$baris, $row->pkp_setahun);
+            $sheet->setCellValue('U'.$baris, $row->pph_atas_pkp);
+            $sheet->setCellValue('V'.$baris, $row->pph_terutang_setahun);
 
             $baris++;
         }

@@ -123,6 +123,11 @@ if (isset($_POST['hitung'])) {
                         <h4 class="card-title">Personal</h4>
                         <p class="card-description">Data personal pegawai</p>
                         <div class="form-group">
+                            <label for="nama">NIP</label>
+                            <input type="text" class="form-control" value="<?= $pegawai_client['nip_pegawai_client']; ?>" name="nip" readonly>
+                            <?= form_error('nip', '<small class="text-danger pl-3">', '</small>'); ?>
+                        </div>
+                        <div class="form-group">
                             <label for="nama">Nama</label>
                             <input type="text" class="form-control" value="<?= $pegawai_client['nama_pegawai_client']; ?>" name="nama" readonly>
                             <?= form_error('nama', '<small class="text-danger pl-3">', '</small>'); ?>

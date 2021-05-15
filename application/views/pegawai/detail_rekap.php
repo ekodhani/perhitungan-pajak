@@ -33,7 +33,7 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                    <a href="<?= base_url('pegawai/exportTax')?>" class="btn btn-gradient-success btn-sm mb-4 btn-icon-text"><i class="mdi mdi-file-excel btn-icon-prepend"></i>Export Data</a>
+                    <a href="<?= base_url('pegawai/exportTax/'.$detail_client['id_client'])?>" class="btn btn-gradient-success btn-sm mb-4 btn-icon-text"><i class="mdi mdi-file-excel btn-icon-prepend"></i>Export Data</a>
                         <h4 class="card-title">Daftar Pegawai Client</h4>
                             <table class="table table-hover">
                                 <thead>
