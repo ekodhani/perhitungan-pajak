@@ -49,7 +49,7 @@ if (isset($_POST['hitung'])) {
     $pkpsetahun = $neto - $ptkp;
 
     $gajipertahun = $gaji*12;
-    // tarif
+    //tarif masih ada yang salah
     if ($gajipertahun <= 50000000){
         if( $statusnpwp = "NPWP"){
             $tarif =  5/100;
@@ -58,7 +58,7 @@ if (isset($_POST['hitung'])) {
             $tarif = 5/100*1.2;
             $pphatas = $pkpsetahun * $tarif;
         }
-    } else if ($gajipertahun <= 250000000 || $gajipertahun == 50000001) {
+    } else if ($gajipertahun <= 250000000 || $gajipertahun >= 50000001) {
         if( $statusnpwp = "NPWP"){
             $tarif =  15/100;
             $pphatas = $pkpsetahun * $tarif;
@@ -66,7 +66,7 @@ if (isset($_POST['hitung'])) {
             $tarif = 15/100*1.2;
             $pphatas = $pkpsetahun * $tarif;
         }
-    }  else if ($gajipertahun <= 500000000 || $gajipertahun == 250000001) {
+    }  else if ($gajipertahun <= 500000000 || $gajipertahun >= 250000001) {
         if( $statusnpwp = "NPWP"){
             $tarif =  25/100;
             $pphatas = $pkpsetahun * $tarif;

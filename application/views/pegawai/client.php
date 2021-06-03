@@ -47,9 +47,9 @@
                                     <td><?= $klient['nama_client']; ?></td>
                                     <td><?= $klient['no_telp']; ?></td>
                                     <td>
-                                    <a href="<?= base_url('pegawai/detail_client/') .$klient['id_client']; ?>" class="badge badge-gradient-info"><i class="mdi mdi-eye"></i> See Detail</a>
-                                    <a href="<?= base_url('pegawai/edit_client/') .$klient['id_client']; ?>" class="badge badge-gradient-success"><i class="mdi mdi-pencil-box-outline"></i> Edit Client</a>
-                                    <a href="<?= base_url('pegawai/deleteClient/') .$klient['id_client']; ?>" class="badge badge-gradient-danger"><i class="mdi mdi-delete"></i> Delete Client</a>
+                                        <a href="<?= base_url('pegawai/detail_client/') .$klient['id_client']; ?>" class="badge badge-gradient-info"><i class="mdi mdi-eye"></i> See Detail</a>
+                                        <a href="<?= base_url('pegawai/edit_client/') .$klient['id_client']; ?>" class="badge badge-gradient-success"><i class="mdi mdi-pencil-box-outline"></i> Edit Client</a>
+                                        <a href="<?= base_url('pegawai/deleteClient/') .$klient['id_client']; ?>" class="badge badge-gradient-danger"><i class="mdi mdi-delete"></i> Delete Client</a>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

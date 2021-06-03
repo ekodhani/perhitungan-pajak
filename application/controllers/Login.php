@@ -104,8 +104,8 @@ class Login extends CI_Controller
 		$config = [
 			'protocol' => 'smtp',
 			'smtp_host' => 'ssl://smtp.googlemail.com',
-			'smtp_user' => 'flowcat0310@gmail.com',
-			'smtp_pass' => 'Dhaniflw2812',
+			'smtp_user' => 'makmurbuana091@gmail.com',
+			'smtp_pass' => '@Buana123',
 			'smtp_port' => 465,
 			'mailtype' => 'html',
 			'charset' => 'utf-8',
@@ -114,12 +114,17 @@ class Login extends CI_Controller
 
 		$this->load->library('email', $config);
 
-		$this->email->from('flowcat0310@gmail.com', 'BMC');
+		$this->email->initialize($config);
+
+		$this->email->from('makmurbuana091@gmail.com', 'BMC');
 		$this->email->to($this->input->post('email'));
 		
 		if($type == 'forgot') {
-			$this->email->subject('Reset Password');
-			$this->email->message('Click this link to reset your password : <a href="'.base_url().'login/resetpassword?nip='.$this->input->post('nip').'&token='.urlencode($token).'">Reset Password</a>');
+			$this->email->subject('Reset Password Request');
+			$data['link'] = base_url().'login/resetpassword?nip='.$this->input->post('nip').'&token='.urlencode($token);
+			$body = $this->load->view('tamplate/reset_password_email', $data, true);
+			$this->email->message($body);
+			// $this->email->message('Your BMC TAX Password can be reset by touch the link below : <a href="'.base_url().'login/resetpassword?nip='.$this->input->post('nip').'&token='.urlencode($token).'">Touch Me!</a>');
 		}
 
 		if ($this->email->send()) {
