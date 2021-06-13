@@ -5,19 +5,22 @@ if (isset($_POST['hitung'])) {
     $statuskawin = $this->input->post('sk');
     $tanggungan = $this->input->post('tanggungan');
     $gaji = $this->input->post('gaji');
-    $tunjanganpph = 0;
-    $tunjanganlain = $this->input->post('tunjangan_lain');
+    $tunjanganlain = $this->input->post('tunjanganlain');
     $honor = $this->input->post('honor');
     $premi = $this->input->post('premiasuransi');
     $tantiem = $this->input->post('tantiem');
     $bruto = $gaji + $tunjanganlain + $honor + $premi + $tantiem;
     $biayajabatan = $bruto * 5/100;
-    $penghasilanbrutosetahun = $bruto * 12;
-    $biayajabatansetahun = $biayajabatan * 12;
-    $jumlahpengurang = $biayajabatan * 12;
+    if ($biayajabatan >= 500000) {
+        $biayajabatan = 500000;
+    }
+    $penghasilanbrutosetahun = ($gaji*12)+($tunjanganlain*12)+($honor*12)+($premi*12)+$tantiem;
+    $biayajabatansetahun = $penghasilanbrutosetahun * 5/100;
+    if($biayajabatansetahun >= 6000000){
+        $biayajabatansetahun = 6000000;
+    }
+    $jumlahpengurang = $biayajabatansetahun;
     $neto =  $penghasilanbrutosetahun - $jumlahpengurang;
-    #blum di resultkan
-    // $pphterutang = $pkpsetahun * $apaayo;
 
     // kondisi ptkp setahun
     if ( $this->input->post('sk') == "TK") {
@@ -49,41 +52,42 @@ if (isset($_POST['hitung'])) {
     $pkpsetahun = $neto - $ptkp;
 
     $gajipertahun = $gaji*12;
-    //tarif masih ada yang salah
-    if ($gajipertahun <= 50000000){
-        if( $statusnpwp = "NPWP"){
+    //tarif
+    if ($gajipertahun >= 50000000){
+        if( $statusnpwp == "NPWP"){
             $tarif =  5/100;
-            $pphatas = $pkpsetahun * $tarif;
-        } else if ( $statusnpwp = "Non NPWP") {
+            $pphatas =+ $pkpsetahun * $tarif;
+        } else if ( $statusnpwp == "Non NPWP") {
             $tarif = 5/100*1.2;
-            $pphatas = $pkpsetahun * $tarif;
+            $pphatas =+ $pkpsetahun * $tarif;
         }
-    } else if ($gajipertahun <= 250000000 || $gajipertahun >= 50000001) {
-        if( $statusnpwp = "NPWP"){
+    } else if ($gajipertahun >= 250000000 || $gajipertahun == 50000001) {
+        if( $statusnpwp == "NPWP"){
             $tarif =  15/100;
-            $pphatas = $pkpsetahun * $tarif;
-        } else if ( $statusnpwp = "Non NPWP") {
+            $pphatas =+ $pkpsetahun * $tarif;
+        } else if ( $statusnpwp == "Non NPWP") {
             $tarif = 15/100*1.2;
-            $pphatas = $pkpsetahun * $tarif;
+            $pphatas =+ $pkpsetahun * $tarif;
         }
-    }  else if ($gajipertahun <= 500000000 || $gajipertahun >= 250000001) {
-        if( $statusnpwp = "NPWP"){
+    }  else if ($gajipertahun >= 500000000 || $gajipertahun == 250000001) {
+        if( $statusnpwp == "NPWP"){
             $tarif =  25/100;
-            $pphatas = $pkpsetahun * $tarif;
-        } else if ( $statusnpwp = "Non NPWP") {
+            $pphatas =+ $pkpsetahun * $tarif;
+        } else if ( $statusnpwp == "Non NPWP") {
             $tarif = 25/100*1.2;
-            $pphatas = $pkpsetahun * $tarif;
+            $pphatas =+ $pkpsetahun * $tarif;
         }
     }  else if ($gajipertahun == 500000001) {
-        if( $statusnpwp = "NPWP"){
+        if( $statusnpwp == "NPWP"){
             $tarif =  30/100;
-            $pphatas = $pkpsetahun * $tarif;
-        } else if ( $statusnpwp = "Non NPWP") {
+            $pphatas =+ $pkpsetahun * $tarif;
+        } else if ( $statusnpwp == "Non NPWP") {
             $tarif = 30/100*1.2;
-            $pphatas = $pkpsetahun * $tarif;
+            $pphatas =+ $pkpsetahun * $tarif;
         }
     }
     $pphterutangsetahun = $pphatas;
+    $tunjanganpph = 0;
 }
 ?>
 <div class="main-panel">

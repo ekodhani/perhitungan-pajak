@@ -53,13 +53,13 @@
                                         <td><?= $row->id_pegawai_client; ?></td>
                                         <td><?= $row->nama; ?></td>
                                         <td>
-                                            <a href="<?= base_url('pegawai/detailPegawaiClient/'. $row->id_pegawai_client.'/'). $detail_client['id_client']; ?>" class="badge badge-gradient-info">
+                                            <a href="<?= base_url('pegawai/detailRekapPegawai/'. $row->id_pegawai_client.'/'). $detail_client['id_client']; ?>" class="badge badge-gradient-info">
                                                 <i class="mdi mdi-information-outline"></i> Detail
                                             </a>
-                                            <a href="<?= base_url('pegawai/deletePegawaiClient/'. $row->id_pegawai_client.'/'). $detail_client['id_client']; ?>" class="badge badge-gradient-danger">
+                                            <a href="<?= base_url('pegawai/deleteRekapPegawai/'. $row->id_pegawai_client.'/'). $detail_client['id_client']; ?>" class="badge badge-gradient-danger">
                                                 <i class="mdi mdi-delete"></i> Hapus
                                             </a>
-                                            <a href="<?= base_url('pegawai/editPegawaiClient/'. $row->id_pegawai_client.'/'). $detail_client['id_client']; ?>" class="badge badge-gradient-success">
+                                            <a href="<?= base_url('pegawai/editRekapPegawai/'. $row->id_pegawai_client.'/'). $detail_client['id_client']; ?>" class="badge badge-gradient-success">
                                                 <i class="mdi mdi-tooltip-edit"></i> Edit
                                             </a>
                                         </td>

@@ -43,19 +43,22 @@ class Pegawai extends CI_Controller
             $statuskawin = $this->input->post('sk');
             $tanggungan = $this->input->post('tanggungan');
             $gaji = $this->input->post('gaji');
-            $tunjanganpph = 0;
             $tunjanganlain = $this->input->post('tunjanganlain');
             $honor = $this->input->post('honor');
             $premi = $this->input->post('premiasuransi');
             $tantiem = $this->input->post('tantiem');
             $bruto = $gaji + $tunjanganlain + $honor + $premi + $tantiem;
             $biayajabatan = $bruto * 5/100;
-            $penghasilanbrutosetahun = $bruto * 12;
-            $biayajabatansetahun = $biayajabatan * 12;
-            $jumlahpengurang = $biayajabatan * 12;
+            if ($biayajabatan >= 500000) {
+                $biayajabatan = 500000;
+            }
+            $penghasilanbrutosetahun = ($gaji*12)+($tunjanganlain*12)+($honor*12)+($premi*12)+$tantiem;
+            $biayajabatansetahun = $penghasilanbrutosetahun * 5/100;
+            if($biayajabatansetahun >= 6000000){
+                $biayajabatansetahun = 6000000;
+            }
+            $jumlahpengurang = $biayajabatansetahun;
             $neto =  $penghasilanbrutosetahun - $jumlahpengurang;
-            #blum di resultkan
-            // $pphterutang = $pkpsetahun * $apaayo;
         
             // kondisi ptkp setahun
             if ( $this->input->post('sk') == "TK") {
@@ -87,41 +90,42 @@ class Pegawai extends CI_Controller
             $pkpsetahun = $neto - $ptkp;
         
             $gajipertahun = $gaji*12;
-            // tarif
-            if ($gajipertahun <= 50000000){
-                if( $statusnpwp = "NPWP"){
+            //tarif
+            if ($gajipertahun >= 50000000){
+                if( $statusnpwp == "NPWP"){
                     $tarif =  5/100;
-                    $pphatas = $pkpsetahun * $tarif;
-                } else if ( $statusnpwp = "Non NPWP") {
+                    $pphatas =+ $pkpsetahun * $tarif;
+                } else if ( $statusnpwp == "Non NPWP") {
                     $tarif = 5/100*1.2;
-                    $pphatas = $pkpsetahun * $tarif;
+                    $pphatas =+ $pkpsetahun * $tarif;
                 }
-            } else if ($gajipertahun <= 250000000 || $gajipertahun == 50000001) {
-                if( $statusnpwp = "NPWP"){
+            } else if ($gajipertahun >= 250000000 || $gajipertahun == 50000001) {
+                if( $statusnpwp == "NPWP"){
                     $tarif =  15/100;
-                    $pphatas = $pkpsetahun * $tarif;
-                } else if ( $statusnpwp = "Non NPWP") {
+                    $pphatas =+ $pkpsetahun * $tarif;
+                } else if ( $statusnpwp == "Non NPWP") {
                     $tarif = 15/100*1.2;
-                    $pphatas = $pkpsetahun * $tarif;
+                    $pphatas =+ $pkpsetahun * $tarif;
                 }
-            }  else if ($gajipertahun <= 500000000 || $gajipertahun == 250000001) {
-                if( $statusnpwp = "NPWP"){
+            }  else if ($gajipertahun >= 500000000 || $gajipertahun == 250000001) {
+                if( $statusnpwp == "NPWP"){
                     $tarif =  25/100;
-                    $pphatas = $pkpsetahun * $tarif;
-                } else if ( $statusnpwp = "Non NPWP") {
+                    $pphatas =+ $pkpsetahun * $tarif;
+                } else if ( $statusnpwp == "Non NPWP") {
                     $tarif = 25/100*1.2;
-                    $pphatas = $pkpsetahun * $tarif;
+                    $pphatas =+ $pkpsetahun * $tarif;
                 }
             }  else if ($gajipertahun == 500000001) {
-                if( $statusnpwp = "NPWP"){
+                if( $statusnpwp == "NPWP"){
                     $tarif =  30/100;
-                    $pphatas = $pkpsetahun * $tarif;
-                } else if ( $statusnpwp = "Non NPWP") {
+                    $pphatas =+ $pkpsetahun * $tarif;
+                } else if ( $statusnpwp == "Non NPWP") {
                     $tarif = 30/100*1.2;
-                    $pphatas = $pkpsetahun * $tarif;
+                    $pphatas =+ $pkpsetahun * $tarif;
                 }
             }
             $pphterutangsetahun = $pphatas;
+            $tunjanganpph = 0;
             $data = [
                 'id_pegawai_client'         => $id,
                 'nip'                       => $nip,
@@ -150,10 +154,8 @@ class Pegawai extends CI_Controller
             ];
     
             $this->db->insert('rekap', $data);
-            $this->session->set_flashdata('message', 'Data Berhasil Di Simpan, <a href="'.base_url('pegawai/rekap').'">Lihat Data</a>');
+            $this->session->set_flashdata('message', 'Data Berhasil Di Simpan, <a href="'.base_url('pegawai/detailRekap/').$id_client.'">Lihat Data</a>');
             redirect(base_url('pegawai/taxcalculate/'.$id.'/').$id_client);
-            // var_dump($data);
-            // die;
         }
     }
 
@@ -190,6 +192,113 @@ class Pegawai extends CI_Controller
         $this->load->view('tamplate/sidebar', $data);
         $this->load->view('pegawai/detail_rekap', $data);
         $this->load->view('tamplate/footer');
+    }
+
+    public function detailRekapPegawai($id, $id_client)
+    {
+        $data['title'] = "Detail Rekap";
+        // User Query
+        $id_result = $this->session->nip;
+        $data['user'] = $this->db->query("SELECT * FROM `pegawai` WHERE nip != '$id_result' ")->result();
+        $data['pegawai'] = $this->M_PPH->select(['nip' =>$this->session->userdata('nip')], 'pegawai')->row_array();
+        // Pegawai Client Query
+        $data['pegawai_client'] = $this->M_PPH->select(['id_pegawai_client' => $id], 'rekap')->row_array();
+        $data['detail_client'] = $this->M_PPH->select(['id_client' => $id_client], 'rekap')->row_array();
+        $this->load->view('tamplate/header', $data);
+        $this->load->view('tamplate/sidebar', $data);
+        $this->load->view('pegawai/detailRekapPegawai', $data);
+        $this->load->view('tamplate/footer');
+    }
+
+    public function deleteRekapPegawai($id, $id_client)
+    {
+        // menseleksi data client berdasarkan id client
+        $data['detail_pegawai'] = $this->M_PPH->select(['id_client' => $id_client], 'rekap')->row_array();
+        $this->db->where('id_pegawai_client', $id);
+        $this->db->delete('rekap');
+        $this->session->set_flashdata('message', 'Data Rekap Pegawai Terhapus');
+        redirect(base_url('pegawai/detailRekap/' .$id_client));
+    }
+
+    public function editRekapPegawai($id, $id_client)
+    {
+        $this->form_validation->set_rules('nip', 'NIP', 'required', [
+            'required' => 'Nip Harap di Isi'
+        ]);
+        $this->form_validation->set_rules('nama', 'Nama', 'required',[
+            'required' => 'Nama Harap di Isi'
+        ]);
+        $this->form_validation->set_rules('sn', 'Status NPWP', 'required',[
+            'required' => 'Status NPWP Harap di Isi'
+        ]);
+        $this->form_validation->set_rules('sk', 'Status Kawin', 'required',[
+            'required' => 'Status Kawin Harap di Isi'
+        ]);
+
+        if ($this->form_validation->run() == false){
+            $data['title'] = "Edit Data Rekap Pegawai";
+            // User Query
+            $id_result = $this->session->nip;
+            $data['user'] = $this->db->query("SELECT * FROM `pegawai` WHERE nip != '$id_result' ")->result();
+            $data['pegawai'] = $this->M_PPH->select(['nip' =>$this->session->userdata('nip')], 'pegawai')->row_array();
+            // Pegawai Client Query
+            $data['pegawai_client'] = $this->M_PPH->select(['id_pegawai_client' => $id], 'rekap')->row_array();
+            $data['detail_client'] = $this->M_PPH->select(['id_client' => $id_client], 'rekap')->row_array();
+            $this->load->view('tamplate/header', $data);
+            $this->load->view('tamplate/sidebar', $data);
+            $this->load->view('pegawai/editRekapPegawai', $data);
+            $this->load->view('tamplate/footer');
+        } else {
+            $nip = $this->input->post('nip');
+            $nama = $this->input->post('nama');
+            $sn = $this->input->post('sn');
+            $sk = $this->input->post('sk');
+            $tanggungan = $this->input->post('tanggungan');
+            $gaji = $this->input->post('gaji');
+            $tunjanganpph = $this->input->post('tunjanganpph');
+            $tunjanganlain = $this->input->post('tunjanganlain');
+            $honor = $this->input->post('honor');
+            $premi = $this->input->post('premi');
+            $tantiem = $this->input->post('tantiem');
+            $bruto = $this->input->post('bruto');
+            $biayajabatan = $this->input->post('biayajabatan'); 
+            $brutosetahun = $this->input->post('brutosetahun'); 
+            $biayajabatansetahun = $this->input->post('biayajabatansetahun'); 
+            $jumlahpengurangsetahun = $this->input->post('jumlahpengurangsetahun');
+            $penghasilanneto = $this->input->post('penghasilanneto');
+            $ptkp = $this->input->post('ptkp');
+            $pkpsetahun = $this->input->post('pkpsetahun');
+            $pphatas = $this->input->post('pphatas');
+            $pphterutang = $this->input->post('pphterutang');
+
+            $this->db->set('nip', $nip);
+            $this->db->set('nama', $nama);
+            $this->db->set('status_npwp', $sn);
+            $this->db->set('status_kawin', $sk);
+            $this->db->set('tanggungan', $tanggungan);
+            $this->db->set('gaji', $gaji);
+            $this->db->set('tunjangan_pph', $tunjanganpph);
+            $this->db->set('tunjangan_lain', $tunjanganlain);
+            $this->db->set('honor', $honor);
+            $this->db->set('premi', $premi);
+            $this->db->set('tantiem', $tantiem);
+            $this->db->set('bruto', $bruto);
+            $this->db->set('biaya_jabatan', $biayajabatan);
+            $this->db->set('penghasilan_bruto_setahun', $brutosetahun);
+            $this->db->set('biaya_jabatan_setahun', $biayajabatansetahun);
+            $this->db->set('jumlah_pengurang_setahun', $jumlahpengurangsetahun);
+            $this->db->set('penghasilan_neto', $penghasilanneto);
+            $this->db->set('ptkp', $ptkp);
+            $this->db->set('pkp_setahun', $pkpsetahun);
+            $this->db->set('pph_atas_pkp', $pphatas);
+            $this->db->set('pph_terutang_setahun', $pphterutang);
+            $this->db->set('id_client', $id_client);
+            $this->db->where('id_pegawai_client', $id);
+            $this->db->update('rekap');
+
+            $this->session->set_flashdata('message', 'Data Rekap Tax Pegawai Client Berhasil Di Update');
+            redirect('pegawai/detailRekap/'.$id_client);
+        }
     }
 
     // function to display all client data
@@ -264,7 +373,7 @@ class Pegawai extends CI_Controller
     public function deleteClient($id)
     {
         #code
-        $tables = ['client', 'pegawai_client'];
+        $tables = ['client', 'pegawai_client', 'rekap'];
         $this->db->where('id_client', $id);
         $this->db->delete($tables);
         $this->session->set_flashdata('message', 'Data Client Terhapus');
