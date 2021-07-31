@@ -53,40 +53,55 @@ if (isset($_POST['hitung'])) {
 
     $gajipertahun = $gaji*12;
     //tarif
-    if ($gajipertahun >= 50000000){
-        if( $statusnpwp == "NPWP"){
-            $tarif =  5/100;
-            $pphatas =+ $pkpsetahun * $tarif;
-        } else if ( $statusnpwp == "Non NPWP") {
-            $tarif = 5/100*1.2;
-            $pphatas =+ $pkpsetahun * $tarif;
-        }
-    } else if ($gajipertahun >= 250000000 || $gajipertahun == 50000001) {
-        if( $statusnpwp == "NPWP"){
-            $tarif =  15/100;
-            $pphatas =+ $pkpsetahun * $tarif;
-        } else if ( $statusnpwp == "Non NPWP") {
-            $tarif = 15/100*1.2;
-            $pphatas =+ $pkpsetahun * $tarif;
-        }
-    }  else if ($gajipertahun >= 500000000 || $gajipertahun == 250000001) {
-        if( $statusnpwp == "NPWP"){
-            $tarif =  25/100;
-            $pphatas =+ $pkpsetahun * $tarif;
-        } else if ( $statusnpwp == "Non NPWP") {
-            $tarif = 25/100*1.2;
-            $pphatas =+ $pkpsetahun * $tarif;
-        }
-    }  else if ($gajipertahun == 500000001) {
-        if( $statusnpwp == "NPWP"){
-            $tarif =  30/100;
-            $pphatas =+ $pkpsetahun * $tarif;
-        } else if ( $statusnpwp == "Non NPWP") {
-            $tarif = 30/100*1.2;
-            $pphatas =+ $pkpsetahun * $tarif;
+    $pajak = 0;
+    if ($pkpsetahun > 0) {
+        if ($pkpsetahun > 500000000) {
+            if ($statusnpwp == "NPWP") {
+                $tier1 = 0.05 * 50000000;
+                $tier2 = 0.15 * 200000000;
+                $tier3 = 0.25 * 250000000;
+                $tier4 = 0.3 * ($pkpsetahun - 500000000);
+                $pajak = $tier1 + $tier2 + $tier3 + $tier4;
+            } else if ($statusnpwp == "Non NPWP"){
+                $tier1 = 0.05 * 1.2 * 50000000;
+                $tier2 = 0.15 * 1.2 * 200000000;
+                $tier3 = 0.25 * 1.2 * 250000000;
+                $tier4 = 0.3 * 1.2 * ($pkpsetahun - 500000000);
+                $pajak = $tier1 + $tier2 + $tier3 + $tier4;
+            }
+        } else if ($pkpsetahun > 250000000) {
+            if ($statusnpwp == "NPWP") {
+                $tier1 = 0.05 * 50000000;
+                $tier2 = 0.15 * 200000000;
+                $tier3 = 0.25 * ($pkpsetahun - 250000000);
+                $pajak = $tier1 + $tier2 + $tier3;
+            } else if ($statusnpwp == "Non NPWP") {
+                $tier1 = 0.05 * 1.2 * 50000000;
+                $tier2 = 0.15 * 1.2 * 200000000;
+                $tier3 = 0.25 * 1.2 * ($pkpsetahun - 250000000);
+                $pajak = $tier1 + $tier2 + $tier3;
+            }
+        } else if ($pkpsetahun > 50000000) {
+            if ($statusnpwp == "NPWP") {
+                $tier1 = 0.05 * 50000000;
+                $tier2 = 0.15 * ($pkpsetahun - 50000000);
+                $pajak = $tier1 + $tier2;
+            } else if ($statusnpwp == "Non NPWP") {
+                $tier1 = 0.05 * 1.2 * 50000000;
+                $tier2 = 0.15 * 1.2 * ($pkpsetahun - 50000000);
+                $pajak = $tier1 + $tier2;
+            }
+        } else {
+            if ($statusnpwp == "NPWP") {
+                $tier1 = 0.05 * $pkpsetahun;
+                $pajak = $tier1;
+            } else if ($statusnpwp == "Non NPWP") {
+                $tier1 = 0.05 * 1.2 * $pkpsetahun;
+                $pajak = $tier1;
+            }
         }
     }
-    $pphterutangsetahun = $pphatas;
+    $pphterutangsetahun = $pajak;
     $tunjanganpph = 0;
 }
 ?>
@@ -138,7 +153,7 @@ if (isset($_POST['hitung'])) {
                         </div>
                         <div class="form-group">
                             <label for="StatusNPWP">Status NPWP</label>
-                            <input type="text" class="form-control" id="StatusNPWP" name="statusnpwp" value="<?= $pegawai_client['status_npwp']?>" readonly>
+                            <input type="text" class="form-control" id="StatusNPWP" name="statusnpwp" value="<?= $pegawai_client['status_npwp']; ?>" readonly>
                             <?= form_error('statusnpwp', '<small class="text-danger pl-3">', '</small>'); ?>
                         </div>
                         <div class="form-group">
@@ -273,7 +288,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="pphataspkp">PPh Pasal 21 atas PKP</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="pphataspkp" value="<?= $pphatas; ?>" name="pphatas" disabled>
+                                <input type="number" class="form-control" id="pphataspkp" value="<?= $pajak; ?>" name="pphatas" disabled>
                             <?php }else{ ?>
                                 <input type="text" value="0" class="form-control" id="pphatas" disabled>
                             <?php } ?>

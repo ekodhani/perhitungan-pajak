@@ -104,8 +104,8 @@ class Login extends CI_Controller
 		$config = [
 			'protocol' => 'smtp',
 			'smtp_host' => 'ssl://smtp.googlemail.com',
-			'smtp_user' => 'Email',
-			'smtp_pass' => 'Password',
+			'smtp_user' => 'makmurbuana091@gmail.com',
+			'smtp_pass' => '@HeyJangan123',
 			'smtp_port' => 465,
 			'mailtype' => 'html',
 			'charset' => 'utf-8',
@@ -116,7 +116,7 @@ class Login extends CI_Controller
 
 		$this->email->initialize($config);
 
-		$this->email->from('Email', 'BMC');
+		$this->email->from('makmurbuana091@gmail.com', 'BMC');
 		$this->email->to($this->input->post('email'));
 		
 		if($type == 'forgot') {

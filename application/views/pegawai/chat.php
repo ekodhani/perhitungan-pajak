@@ -95,6 +95,7 @@
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url('pegawai'); ?>"> Dashboard </a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url('pegawai/client'); ?>"> Data Client </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url('pegawai/rekap'); ?>"> Rekap </a></li>
                 </ul>
               </div>
             </li>

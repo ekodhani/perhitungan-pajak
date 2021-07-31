@@ -13,4 +13,10 @@ class M_PPH extends CI_Model
     {
         return $this->db->get($table);
     }
+
+    public function rupiah($angka)
+    {
+        $hasil = "Rp. ". number_format($angka,2,',','.');
+        return $hasil;
+    }
 }

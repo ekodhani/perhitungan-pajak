@@ -91,40 +91,55 @@ class Pegawai extends CI_Controller
         
             $gajipertahun = $gaji*12;
             //tarif
-            if ($gajipertahun >= 50000000){
-                if( $statusnpwp == "NPWP"){
-                    $tarif =  5/100;
-                    $pphatas =+ $pkpsetahun * $tarif;
-                } else if ( $statusnpwp == "Non NPWP") {
-                    $tarif = 5/100*1.2;
-                    $pphatas =+ $pkpsetahun * $tarif;
-                }
-            } else if ($gajipertahun >= 250000000 || $gajipertahun == 50000001) {
-                if( $statusnpwp == "NPWP"){
-                    $tarif =  15/100;
-                    $pphatas =+ $pkpsetahun * $tarif;
-                } else if ( $statusnpwp == "Non NPWP") {
-                    $tarif = 15/100*1.2;
-                    $pphatas =+ $pkpsetahun * $tarif;
-                }
-            }  else if ($gajipertahun >= 500000000 || $gajipertahun == 250000001) {
-                if( $statusnpwp == "NPWP"){
-                    $tarif =  25/100;
-                    $pphatas =+ $pkpsetahun * $tarif;
-                } else if ( $statusnpwp == "Non NPWP") {
-                    $tarif = 25/100*1.2;
-                    $pphatas =+ $pkpsetahun * $tarif;
-                }
-            }  else if ($gajipertahun == 500000001) {
-                if( $statusnpwp == "NPWP"){
-                    $tarif =  30/100;
-                    $pphatas =+ $pkpsetahun * $tarif;
-                } else if ( $statusnpwp == "Non NPWP") {
-                    $tarif = 30/100*1.2;
-                    $pphatas =+ $pkpsetahun * $tarif;
+            $pajak = 0;
+            if ($pkpsetahun > 0) {
+                if ($pkpsetahun > 500000000) {
+                    if ($statusnpwp == "NPWP") {
+                        $tier1 = 0.05 * 50000000;
+                        $tier2 = 0.15 * 200000000;
+                        $tier3 = 0.25 * 250000000;
+                        $tier4 = 0.3 * ($pkpsetahun - 500000000);
+                        $pajak = $tier1 + $tier2 + $tier3 + $tier4;
+                    } else if ($statusnpwp == "Non NPWP"){
+                        $tier1 = 0.05 * 1.2 * 50000000;
+                        $tier2 = 0.15 * 1.2 * 200000000;
+                        $tier3 = 0.25 * 1.2 * 250000000;
+                        $tier4 = 0.3 * 1.2 * ($pkpsetahun - 500000000);
+                        $pajak = $tier1 + $tier2 + $tier3 + $tier4;
+                    }
+                } else if ($pkpsetahun > 250000000) {
+                    if ($statusnpwp == "NPWP") {
+                        $tier1 = 0.05 * 50000000;
+                        $tier2 = 0.15 * 200000000;
+                        $tier3 = 0.25 * ($pkpsetahun - 250000000);
+                        $pajak = $tier1 + $tier2 + $tier3;
+                    } else if ($statusnpwp == "Non NPWP") {
+                        $tier1 = 0.05 * 1.2 * 50000000;
+                        $tier2 = 0.15 * 1.2 * 200000000;
+                        $tier3 = 0.25 * 1.2 * ($pkpsetahun - 250000000);
+                        $pajak = $tier1 + $tier2 + $tier3;
+                    }
+                } else if ($pkpsetahun > 50000000) {
+                    if ($statusnpwp == "NPWP") {
+                        $tier1 = 0.05 * 50000000;
+                        $tier2 = 0.15 * ($pkpsetahun - 50000000);
+                        $pajak = $tier1 + $tier2;
+                    } else if ($statusnpwp == "Non NPWP") {
+                        $tier1 = 0.05 * 1.2 * 50000000;
+                        $tier2 = 0.15 * 1.2 * ($pkpsetahun - 50000000);
+                        $pajak = $tier1 + $tier2;
+                    }
+                } else {
+                    if ($statusnpwp == "NPWP") {
+                        $tier1 = 0.05 * $pkpsetahun;
+                        $pajak = $tier1;
+                    } else if ($statusnpwp == "Non NPWP") {
+                        $tier1 = 0.05 * 1.2 * $pkpsetahun;
+                        $pajak = $tier1;
+                    }
                 }
             }
-            $pphterutangsetahun = $pphatas;
+            $pphterutangsetahun = $pajak;
             $tunjanganpph = 0;
             $data = [
                 'id_pegawai_client'         => $id,
@@ -147,7 +162,7 @@ class Pegawai extends CI_Controller
                 'penghasilan_neto'          => $neto,
                 'ptkp'                      => $ptkp,
                 'pkp_setahun'               => $pkpsetahun,
-                'pph_atas_pkp'              => $pphatas,
+                'pph_atas_pkp'              => $pajak,
                 'pph_terutang_setahun'      => $pphterutangsetahun,
                 'id_client'                 => $id_client,
                 'id_pegawai'                => $this->session->userdata('nip')

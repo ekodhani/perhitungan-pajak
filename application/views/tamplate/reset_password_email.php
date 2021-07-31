@@ -23,7 +23,7 @@
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                          <a href="https://rakeshmandal.com" title="logo" target="_blank">
+                          <a href="https://buanamakmur.co.id/" title="logo" target="_blank">
                             <img src="https://buanamakmur.co.id/wp-content/uploads/2019/12/BMC-Header-Logo-3.png" title="logo" alt="logo">
                           </a>
                         </td>
