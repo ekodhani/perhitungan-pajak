@@ -21,6 +21,10 @@
             color: #fff0a5;
         }
 
+        .error {
+            color: #fff0a5;
+            text-shadow: 2px 2px 4px #dd8da2;
+        }
     </style>
 </head>
 
@@ -34,9 +38,11 @@
                     <form action="<?= base_url('login/reset_password'); ?>" method="post">
                         <div class="inputBox">
                             <input type="text" placeholder="NIP" name="nip" value="<?= set_value('nip'); ?>">
+                            <?= form_error('nip', '<small class="error">', '</small>'); ?>
                         </div>
                         <div class="inputBox">
                             <input type="text" placeholder="Email" name="email">
+                            <?= form_error('email', '<small class="error">', '</small>'); ?>
                         </div>
                         <div class="inputBox">
                             <input type="submit" value="Reset">

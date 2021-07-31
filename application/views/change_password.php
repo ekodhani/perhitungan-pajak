@@ -17,8 +17,9 @@
             background: linear-gradient(to right, #FFBF96, #FE7096);
         }
 
-        .signup a {
+        .error {
             color: #fff0a5;
+            text-shadow: 2px 2px 4px #dd8da2;
         }
 
     </style>
