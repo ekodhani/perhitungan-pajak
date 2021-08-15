@@ -1,6 +1,6 @@
 <?php
 
-use function PHPSTORM_META\map;
+// use function PHPSTORM_META\map;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 

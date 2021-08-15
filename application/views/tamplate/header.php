@@ -64,7 +64,6 @@
                   </div>
                   <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
                     <h6 class="preview-subject ellipsis mb-1 font-weight-normal"><?= $u->nama_pegawai; ?></h6>
-                    <p class="text-success mb-0"> Online </p>
                   </div>
                 </a>
                 <div class="dropdown-divider"></div>

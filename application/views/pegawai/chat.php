@@ -117,7 +117,6 @@
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
                   <span class="font-weight-bold mb-2"><?= $u->nama_pegawai; ?></span>
-                  <span class="text-danger text-small">Offline</span>
                 </div>
                 <div class="border-bottom"></div>
               </a>

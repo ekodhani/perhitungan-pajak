@@ -1,4 +1,8 @@
 <?php 
+function rupiah($angka){
+    $hasil = "Rp. ". number_format($angka,2,',',',');
+    return $hasil;
+}
 if (isset($_POST['hitung'])) {
     $nama = $this->input->post('nama');
     $statusnpwp = $this->input->post('statusnpwp');
@@ -205,7 +209,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="bruto">Penghasilan Bruto</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="bruto" value="<?= $bruto; ?>" name="bruto" readonly>
+                                <input type="text" class="form-control" id="bruto" value="<?= rupiah($bruto); ?>" name="bruto" readonly>
                                 <?= form_error('bruto', '<small class="error">', '</small>'); ?>
                             <?php }else{ ?>
 	                            <input type="text" value="0" class="form-control" id="bruto" name="bruto" readonly>
@@ -222,7 +226,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="biayajabatan">Biaya Jabatan</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="biayajabatan" value="<?= $biayajabatan; ?>" name="biayajabatan" disabled>
+                                <input type="text" class="form-control" id="biayajabatan" value="<?= rupiah($biayajabatan); ?>" name="biayajabatan" disabled>
                             <?php }else{ ?>
 	                            <input type="text" value="0" class="form-control" id="biayajabatan" disabled>
                             <?php } ?>
@@ -240,7 +244,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="penghasilanbrutosetahun">Penghasilan Bruto Setahun</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="penghasilanbrutosetahun" value="<?= $penghasilanbrutosetahun; ?>" name="penghasilanbrutosetahun" disabled>
+                                <input type="text" class="form-control" id="penghasilanbrutosetahun" value="<?= rupiah($penghasilanbrutosetahun); ?>" name="penghasilanbrutosetahun" disabled>
                             <?php }else{ ?>
                                 <input type="text" value="0" class="form-control" id="penghasilanbrutosetahun" disabled>
                             <?php } ?>
@@ -248,7 +252,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="biayajabatansetahun">Biaya Jabatan Setahun</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                            <input type="number" class="form-control" id="biayajabatansetahun" value="<?= $biayajabatansetahun; ?>" name="biayajabatansetahun" disabled>
+                            <input type="text" class="form-control" id="biayajabatansetahun" value="<?= rupiah($biayajabatansetahun); ?>" name="biayajabatansetahun" disabled>
                             <?php }else{ ?>
                                 <input type="text" value="0" class="form-control" id="biayajabatansetahun" disabled>
                             <?php } ?>
@@ -256,7 +260,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="jumlahpengurangsetahun">Jumlah Pengurang Setahun</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="jumlahpengurangsetahun" value="<?= $jumlahpengurang; ?>" name="jumlahpengurangsetahun" disabled>
+                                <input type="text" class="form-control" id="jumlahpengurangsetahun" value="<?= rupiah($jumlahpengurang); ?>" name="jumlahpengurangsetahun" disabled>
                             <?php }else{ ?>
                                 <input type="text" value="0" class="form-control" id="jumlahpengurangsetahun" disabled>
                             <?php } ?>
@@ -264,7 +268,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="penghasilanneto">Penghasilan Neto</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="penghasilanneto" value="<?= $neto; ?>" name="penghasilanneto" disabled>
+                                <input type="text" class="form-control" id="penghasilanneto" value="<?= rupiah($neto); ?>" name="penghasilanneto" disabled>
                             <?php }else{ ?>
                                 <input type="text" value="0" class="form-control" id="penghasilanneto" disabled>
                             <?php } ?>
@@ -272,7 +276,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="penghasilantidakkenapajak">Penghasilan Tidak Kena Pajak</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="penghasilantidakkenapajak" value="<?= $ptkp; ?>" name="penghasilantidakkenapajak" disabled>
+                                <input type="text" class="form-control" id="penghasilantidakkenapajak" value="<?= rupiah($ptkp); ?>" name="penghasilantidakkenapajak" disabled>
                             <?php }else{ ?>
                                 <input type="text" value="0" class="form-control" id="penghasilantidakkenapajak" disabled>
                             <?php } ?>
@@ -280,7 +284,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="pkpsetahun">PKP Setahun/Disetahunkan</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="pkpsetahun" value="<?= $pkpsetahun; ?>" name="pkpsetahun" disabled>
+                                <input type="text" class="form-control" id="pkpsetahun" value="<?= rupiah($pkpsetahun); ?>" name="pkpsetahun" disabled>
                             <?php }else{ ?>
                                 <input type="text" value="0" class="form-control" id="pkpsetahun" disabled>
                             <?php } ?>
@@ -288,7 +292,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="pphataspkp">PPh Pasal 21 atas PKP</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="pphataspkp" value="<?= $pajak; ?>" name="pphatas" disabled>
+                                <input type="text" class="form-control" id="pphataspkp" value="<?= rupiah($pajak); ?>" name="pphatas" disabled>
                             <?php }else{ ?>
                                 <input type="text" value="0" class="form-control" id="pphatas" disabled>
                             <?php } ?>
@@ -296,7 +300,7 @@ if (isset($_POST['hitung'])) {
                         <div class="form-group">
                             <label for="pphterutangsetahun">PPh Pasal 21 Terutang Setahun/Disetahunkan</label>
                             <?php if(isset($_POST['hitung'])){ ?>
-                                <input type="number" class="form-control" id="pphterutangsetahun" value="<?= $pphterutangsetahun; ?>" name="pphterutangsetahun" disabled>
+                                <input type="text" class="form-control" id="pphterutangsetahun" value="<?= rupiah($pphterutangsetahun); ?>" name="pphterutangsetahun" disabled>
                             <?php }else{ ?>
                                 <input type="text" value="0" class="form-control" id="pphterutangsetahun" disabled>
                             <?php } ?>
